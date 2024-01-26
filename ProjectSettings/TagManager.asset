@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Bullet
+  - Enemy
+  - SubBullet
+  - FxTemporaire
+  - Boom
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Player
+  - Enemy
+  - DestroyZone
+  - Bullet
+  - Item
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: BackGround
+    uniqueID: 191211823
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: VFX
+    uniqueID: 3311918729
+    locked: 0
+  - name: Player
+    uniqueID: 835898059
+    locked: 0
+  - name: Bullet
+    uniqueID: 394803241
+    locked: 0
+  - name: Item
+    uniqueID: 3424091897
+    locked: 0
+  - name: Enemy
+    uniqueID: 400129931
+    locked: 0
