@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum EnemyType       //Àû Å¸ÀÔ ¿­°ÅÇü
+public enum EnemyType       //ì  íƒ€ì… ì—´ê±°í˜•
 {
-    Basic,       //±âº» Å¸ÀÔ Àû
-    Target,     // ³ª¸¦ µû¶ó¿À´Â Àû
-    Follow,    //¹æÇâÀ» ¹Ù²ãµµ ³ª¸¦ µû¶ó¿À´Â Àû 
+    Basic,       //ê¸°ë³¸ íƒ€ì… ì 
+    Target,     // ë‚˜ë¥¼ ë”°ë¼ì˜¤ëŠ” ì 
+    Follow,    //ë°©í–¥ì„ ë°”ê¿”ë„ ë‚˜ë¥¼ ë”°ë¼ì˜¤ëŠ” ì  
 }
 
 public class Enemy : MonoBehaviour
 {
-    //enemyÀÇ ÀÌµ¿¼Óµµ
+    //enemyì˜ ì´ë™ì†ë„
     public float Speed = 1f;
-    //enemyÀÇ Ã¼·Â
+    //enemyì˜ ì²´ë ¥
     public int Health = 2;
 
     public EnemyType EType;
@@ -33,51 +33,51 @@ public class Enemy : MonoBehaviour
 
     public GameObject ExplosionVFXPrefab;
 
-    //¸ñÇ¥
-    //Basic  Å¸ÀÔ : ¾Æ·¡·Î ÀÌµ¿
-    //Target Å¸ÀÔ : Ã³À½ ÅÂ¾î³µÀ» ¶§ ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Â ¹æÇâÀ¸·Î ÀÌµ¿
-    //ÇÊ¿ä¼Ó¼º
-    //-EnemyType Å¸ÀÔ
-    //±¸Çö¼ø¼­ :
-    //1. ½ÃÀÛÇÒ ¶§ ¹æÇâÀ» ±¸ÇÑ´Ù
-    //2. ¹æÇâÀ» ÇâÇØ ÀÌµ¿ÇÑ´Ù
-    // ´Ü, ¹æÇâÀ» ±¸ÇÒ ¶§ ÇÃ·¹ÀÌ¾î°¡ ÀÖ´Â ¹æÇâÀ¸·Î ÀÌµ¿ÇØ¾ßÇÑ´Ù
+    //ëª©í‘œ
+    //Basic  íƒ€ì… : ì•„ë˜ë¡œ ì´ë™
+    //Target íƒ€ì… : ì²˜ìŒ íƒœì–´ë‚¬ì„ ë•Œ í”Œë ˆì´ì–´ê°€ ìˆëŠ” ë°©í–¥ìœ¼ë¡œ ì´ë™
+    //í•„ìš”ì†ì„±
+    //-EnemyType íƒ€ì…
+    //êµ¬í˜„ìˆœì„œ :
+    //1. ì‹œì‘í•  ë•Œ ë°©í–¥ì„ êµ¬í•œë‹¤
+    //2. ë°©í–¥ì„ í–¥í•´ ì´ë™í•œë‹¤
+    // ë‹¨, ë°©í–¥ì„ êµ¬í•  ë•Œ í”Œë ˆì´ì–´ê°€ ìˆëŠ” ë°©í–¥ìœ¼ë¡œ ì´ë™í•´ì•¼í•œë‹¤
     void Start()
     {
-        // scene¿¡ ÀÖ´Â »ç¿îµå¼Ò½º°¡ ÀÖ´Â ¿ÀºêÁ§Æ®
+        // sceneì— ìˆëŠ” ì‚¬ìš´ë“œì†ŒìŠ¤ê°€ ìˆëŠ” ì˜¤ë¸Œì íŠ¸
         GameObject SoundController = GameObject.Find("SoundController_EnemyDie");
-        // ±× ¿ÀºêÁ§Æ®¿¡¼­ audiosource component¸¦ °¡Á®¿À±â
+        // ê·¸ ì˜¤ë¸Œì íŠ¸ì—ì„œ audiosource componentë¥¼ ê°€ì ¸ì˜¤ê¸°
         DieSound = SoundController.GetComponent<AudioSource>();
 
 
-        //Ä³½Ì : ÀÚÁÖ ¾²´Â µ¥ÀÌÅÍ¸¦ ´õ °¡±î¿î Àå¼Ò¿¡ ÀúÀåÇØµÎ°í ÇÊ¿äÇÒ ¶§ °¡Á®´Ù ¾²´Â °Í
-        //½ÃÀÛÇÒ ¶§ ÇÃ·¹ÀÌ¾î¸¦ Ã£¾Æ¼­ ±â¾ïÇØµĞ´Ù
+        //ìºì‹± : ìì£¼ ì“°ëŠ” ë°ì´í„°ë¥¼ ë” ê°€ê¹Œìš´ ì¥ì†Œì— ì €ì¥í•´ë‘ê³  í•„ìš”í•  ë•Œ ê°€ì ¸ë‹¤ ì“°ëŠ” ê²ƒ
+        //ì‹œì‘í•  ë•Œ í”Œë ˆì´ì–´ë¥¼ ì°¾ì•„ì„œ ê¸°ì–µí•´ë‘”ë‹¤
         _target = GameObject.Find("Player");
 
         MyAnimator = GetComponent<Animator>();
 
         if (EType == EnemyType.Target)
         {
-            //1. ½ÃÀÛÇÒ ¶§ ¹æÇâÀ» ±¸ÇÑ´Ù
-            //1-1. ÇÃ·¹ÀÌ¾î¸¦ Ã£´Â´Ù(find)
+            //1. ì‹œì‘í•  ë•Œ ë°©í–¥ì„ êµ¬í•œë‹¤
+            //1-1. í”Œë ˆì´ì–´ë¥¼ ì°¾ëŠ”ë‹¤(find)
             //GameObject target = GameObject.Find("Player");
 
             // = GameObject.FindGameObjectsWithTag("Player");
-            //1-2. ¹æÇâÀ» ±¸ÇÑ´Ù
-            //ÇÃ·¹ÀÌ¾îÀ§Ä¡ - ³»À§Ä¡ = ¹æÇâ
+            //1-2. ë°©í–¥ì„ êµ¬í•œë‹¤
+            //í”Œë ˆì´ì–´ìœ„ì¹˜ - ë‚´ìœ„ì¹˜ = ë°©í–¥
             _dir = _target.transform.position - this.transform.position;
-            _dir.Normalize();   //´ÜÀ§ º¤ÅÍ¸¦ ±¸ÇÔ ( ¹æÇâÀÇ Å©±â¸¦ 1·Î ¸¸µç´Ù)
+            _dir.Normalize();   //ë‹¨ìœ„ ë²¡í„°ë¥¼ êµ¬í•¨ ( ë°©í–¥ì˜ í¬ê¸°ë¥¼ 1ë¡œ ë§Œë“ ë‹¤)
 
-            //1.°¢µµ¸¦ ±¸ÇÑ´Ù
+            //1.ê°ë„ë¥¼ êµ¬í•œë‹¤
             //tan@ = y/x  -> @ = y/x * atan
             float radin = Mathf.Atan2(_dir.y, _dir.x);
-            //Debug.Log(radin);       //È£µµ¹ı -> ¶óµğ¾È °ª
+            //Debug.Log(radin);       //í˜¸ë„ë²• -> ë¼ë””ì•ˆ ê°’
             float degree = radin * Mathf.Rad2Deg;
             //Debug.Log(degree);
 
-            //2.°¢µµ¿¡ ¸Â°Ô È¸ÀüÇÑ´Ù
+            //2.ê°ë„ì— ë§ê²Œ íšŒì „í•œë‹¤
             transform.eulerAngles = new Vector3(0,0,degree+90);
-            // = transform.rotation = Quaternion.Euler( new Vector3(0,0,degree + 90));   //ÀÌ¹ÌÁö ¸®¼Ò½º¿¡ ¸Â°Ô 90µµ¸¦ ´õÇÑ´Ù
+            // = transform.rotation = Quaternion.Euler( new Vector3(0,0,degree + 90));   //ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ì— ë§ê²Œ 90ë„ë¥¼ ë”í•œë‹¤
         }
         else if (EType == EnemyType.Basic)
         {
@@ -88,63 +88,63 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        // 1. ¹æÇâÀ» ±¸ÇÑ´Ù.
+        // 1. ë°©í–¥ì„ êµ¬í•œë‹¤.
        // Vector2 dir = Vector2.down;
-        // 2. ÀÌµ¿ÇÑ´Ù.
+        // 2. ì´ë™í•œë‹¤.
         transform.position += (Vector3)(_dir * Speed) * Time.deltaTime;
-        if (EType == EnemyType.Follow)      //¸Å ÇÁ·¹ÀÓ¸¶´Ù ³ª¸¦ Ã£¾Æ¾ßÇÏ±â¶§¹®¿¡  update¿¡
+        if (EType == EnemyType.Follow)      //ë§¤ í”„ë ˆì„ë§ˆë‹¤ ë‚˜ë¥¼ ì°¾ì•„ì•¼í•˜ê¸°ë•Œë¬¸ì—  updateì—
         {
             //GameObject target = GameObject.Find("Player");
-            _dir = _target.transform.position - this.transform.position; //¹æÇâÀ» ±¸ÇÑ´Ù (target - me)
-            _dir.Normalize();   //´ÜÀ§ º¤ÅÍ¸¦ ±¸ÇÔ ( ¹æÇâÀÇ Å©±â¸¦ 1·Î ¸¸µç´Ù)
+            _dir = _target.transform.position - this.transform.position; //ë°©í–¥ì„ êµ¬í•œë‹¤ (target - me)
+            _dir.Normalize();   //ë‹¨ìœ„ ë²¡í„°ë¥¼ êµ¬í•¨ ( ë°©í–¥ì˜ í¬ê¸°ë¥¼ 1ë¡œ ë§Œë“ ë‹¤)
 
-            //1.°¢µµ¸¦ ±¸ÇÑ´Ù
+            //1.ê°ë„ë¥¼ êµ¬í•œë‹¤
             //tan@ = y/x  -> @ = y/x * atan
             float radin = Mathf.Atan2(_dir.y, _dir.x);
-            //Debug.Log(radin);       //È£µµ¹ı -> ¶óµğ¾È °ª
+            //Debug.Log(radin);       //í˜¸ë„ë²• -> ë¼ë””ì•ˆ ê°’
             float degree = radin * Mathf.Rad2Deg;
             //Debug.Log(degree);
 
-            //2.°¢µµ¿¡ ¸Â°Ô È¸ÀüÇÑ´Ù
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90));   //ÀÌ¹ÌÁö ¸®¼Ò½º¿¡ ¸Â°Ô 90µµ¸¦ ´õÇÑ´Ù
+            //2.ê°ë„ì— ë§ê²Œ íšŒì „í•œë‹¤
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, degree + 90));   //ì´ë¯¸ì§€ ë¦¬ì†ŒìŠ¤ì— ë§ê²Œ 90ë„ë¥¼ ë”í•œë‹¤
         }
     }
 
-    //OnCollisionEnter : ¹°Ã¼¿ÍÀÇ Ãæµ¹À» °¨ÁöÇÏ´Â ÇÔ¼ö
+    //OnCollisionEnter : ë¬¼ì²´ì™€ì˜ ì¶©ëŒì„ ê°ì§€í•˜ëŠ” í•¨ìˆ˜
     private void OnCollisionEnter2D(Collision2D collision)      
     {
-        //Ãæµ¹À» ½ÃÀÛÇßÀ» ¶§
+        //ì¶©ëŒì„ ì‹œì‘í–ˆì„ ë•Œ
         //Debug.Log("Enter");
 
 
 
-        //ÇÃ·¹ÀÌ¾î¿ÍÀÇ Ãæµ¹ Ã¼Å©
+        //í”Œë ˆì´ì–´ì™€ì˜ ì¶©ëŒ ì²´í¬
         if (collision.collider.tag == "Player")
         {
-            //Ãæµ¹ÇÑ °´Ã¼·ÎºÎÅÍ Player ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+            //ì¶©ëŒí•œ ê°ì²´ë¡œë¶€í„° Player ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
             Player player = collision.collider.GetComponent<Player>();
-            //ÇÃ·¹ÀÌ¾î Ã¼·Â °¨¼Ò
+            //í”Œë ˆì´ì–´ ì²´ë ¥ ê°ì†Œ
             player.Health -= 1;
 
-            //ÇÃ·¹ÀÌ¾î Ã¼·ÂÀÌ 0 ÀÌÇÏÀÏ °æ¿ì ÇÃ·¹ÀÌ¾î Á×À½
+            //í”Œë ˆì´ì–´ ì²´ë ¥ì´ 0 ì´í•˜ì¼ ê²½ìš° í”Œë ˆì´ì–´ ì£½ìŒ
             if (player.Health <= 0)
             {
                 Death();
 
             }
             Death();
-            //ÇÃ·¹ÀÌ¾î¶û ´ê¾ÒÀ» ¶§ enemy(³ª ÀÚ½Å) Á×´Â´Ù
+            //í”Œë ˆì´ì–´ë‘ ë‹¿ì•˜ì„ ë•Œ enemy(ë‚˜ ìì‹ ) ì£½ëŠ”ë‹¤
         }
 
-        //ÃÑ¾Ë°úÀÇ Ãæµ¹ Ã¼Å©
+        //ì´ì•Œê³¼ì˜ ì¶©ëŒ ì²´í¬
         else if (collision.collider.tag == "Bullet")
         {
-            //Ãæµ¹ÇÑ °´Ã¼·ÎºÎÅÍ Bullet ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+            //ì¶©ëŒí•œ ê°ì²´ë¡œë¶€í„° Bullet ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
             Bullet bullet = collision.collider.GetComponent<Bullet>();
             Destroy(collision.collider.gameObject);
             
 
-            //ÁÖ ÃÑ¾ËÀÎ °æ¿ì ÀûÀÇ Ã¼·ÂÀ» 0À¸·Î *************************
+            //ì£¼ ì´ì•Œì¸ ê²½ìš° ì ì˜ ì²´ë ¥ì„ 0ìœ¼ë¡œ *************************
             if (bullet.BType == BulletType.Main)
             {
                 Health -= 1;
@@ -167,7 +167,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // ¸¸¾à¿¡ ÀûÀ» ÀâÀ¸¸é = ÀûÀÌ Á×À¸¸é 
+    // ë§Œì•½ì— ì ì„ ì¡ìœ¼ë©´ = ì ì´ ì£½ìœ¼ë©´ 
     public void Death()
     {
         Destroy(this.gameObject);
@@ -175,48 +175,30 @@ public class Enemy : MonoBehaviour
         vfx.transform.position = this.transform.position;
 
         
-        //¸ñÇ¥ : ½ºÄÚ¾î¸¦ Áõ°¡½ÃÅ°°í ½Í´Ù
-        //1. Score¸¦ Áõ°¡½ÃÅ°±â À§Çô¼­´Â ¾À¿¡¼­ ScoreManager ¿ÀºêÁ§Æ®¸¦ Ã£¾Æ¿Â´Ù
+        //ëª©í‘œ : ìŠ¤ì½”ì–´ë¥¼ ì¦ê°€ì‹œí‚¤ê³  ì‹¶ë‹¤
+        //1. Scoreë¥¼ ì¦ê°€ì‹œí‚¤ê¸° ìœ„í˜€ì„œëŠ” ì”¬ì—ì„œ ScoreManager ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì•„ì˜¨ë‹¤
         GameObject smGameObject = GameObject.Find("ScoreManager");
-        // 2. ScoreManager °ÔÀÓ ¿ÀºêÁ§Æ®¿¡¼­ ScoreManager ½ºÅ©¸³Æ® ÄÄÆ÷³ÍÆ®¸¦ ¾ò¾î¿Â´Ù
+        // 2. ScoreManager ê²Œì„ ì˜¤ë¸Œì íŠ¸ì—ì„œ ScoreManager ìŠ¤í¬ë¦½íŠ¸ ì»´í¬ë„ŒíŠ¸ë¥¼ ì–»ì–´ì˜¨ë‹¤
         ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
-        // 3. ÄÄÆ÷³ÍÆ®ÀÇ Score¼Ó¼ºÀ» Áõ°¡½ÃÅ²´Ù
-        scoreManager.Score += 1;
-        // ¸ñÇ¥ : Score¸¦ È­¸é¿¡ Ç¥½ÃÇÑ´Ù
-        scoreManager.ScoreTextUI.text = $"Á¡¼ö : {scoreManager.Score}";
-        
-        //¸ñÇ¥ : ÃÖ°í Á¡¼ö¸¦ °»½ÅÇÏ°í  UI ¿¡ Ç¥½ÃÇÏ°í ½Í´Ù
-        // 1. ¸¸¾à ÇöÀç Á¡¼ö°¡ ÃÖ°í Á¡¼öº¸´Ù Å©´Ù¸é
-        if(scoreManager.Score > scoreManager.BestScore) 
-        {
-            // 2. ÃÖ°í Á¡¼ö¸¦ °»½ÅÇÏ°í,
-            scoreManager.BestScore = scoreManager.Score;
+        // 3. ì»´í¬ë„ŒíŠ¸ì˜ Scoreì†ì„±ì„ ì¦ê°€ì‹œí‚¨ë‹¤
 
-            // ¸ñÇ¥ : ÃÖ°í Á¡¼ö¸¦ ÀúÀå
-            // PlayerPrefs Å¬·¡½º¸¦ »ç¿ë
-            // -> °ªÀ» Å°(key)¿Í °ª(value) ÇüÅÂ·Î ÀúÀåÇÏ´Â Å¬·¡½º
-            // ÀúÀåÇÒ ¼ö ÀÖ´Â µ¥ÀÌÅÍÅ¸ÀÔ : int, float, string
-            // Å¸ÀÔº°·Î ÀúÀå/·Îµå°¡ °¡´ÉÇÑ Set/Get ¸Ş¼­µå°¡ ÀÖ´Ù
-            PlayerPrefs.SetInt("BestScore", scoreManager.BestScore);
+        //(Get/Set) ìº¡ìŠí™”
+        int score = scoreManager.GetScore();
+        scoreManager.SetScore(score+1);
+        Debug.Log(scoreManager.GetScore());
 
-
-
-            // 3. UI¿¡ Ç¥½ÃÇÑ´Ù
-            scoreManager.BestScoreTextUI.text = $"ÃÖ°í Á¡¼ö : {scoreManager.BestScore}";
-        }
-       
     }
 
 
     public void MakeItem()
-    { //¼ø¼­ : 
-     //1. ¾ÆÀÌÅÛ ¸¸µé°í
+    { //ìˆœì„œ : 
+     //1. ì•„ì´í…œ ë§Œë“¤ê³ 
      //GameObject item = null;
-     //GameObject item = Instantiate(ItemPrefab);  //ItemPrefabÀ» º¹Á¦ÇÏ¿© ¸¸µé¾îÁÜ -> º¹Á¦ÇÑ ¾ÆÀÌ¸¦ ÁöÄª : GameObject item
-     //À§Ä¡¸¦ ÀûÀÇ À§Ä¡·Î º¯°æ
-     //item.transform.position = this.transform.position;  //item¹Ú½º ¾È¿¡ µç ¾ÆÀÌ(Instantiate(ItemPrefab))ÀÇ À§Ä¡ = ³» À§Ä¡
-     //this = ³ª ÀÚ½Å = enemy
-     //50%È®·ü·Î Ã¼·Â ¿Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ, 50%È®·ü·Î ÀÌµ¿¼Óµµ ¿Ã·ÁÁÖ´Â ¾ÆÀÌÅÛ
+     //GameObject item = Instantiate(ItemPrefab);  //ItemPrefabì„ ë³µì œí•˜ì—¬ ë§Œë“¤ì–´ì¤Œ -> ë³µì œí•œ ì•„ì´ë¥¼ ì§€ì¹­ : GameObject item
+     //ìœ„ì¹˜ë¥¼ ì ì˜ ìœ„ì¹˜ë¡œ ë³€ê²½
+     //item.transform.position = this.transform.position;  //itemë°•ìŠ¤ ì•ˆì— ë“  ì•„ì´(Instantiate(ItemPrefab))ì˜ ìœ„ì¹˜ = ë‚´ ìœ„ì¹˜
+     //this = ë‚˜ ìì‹  = enemy
+     //50%í™•ë¥ ë¡œ ì²´ë ¥ ì˜¬ë ¤ì£¼ëŠ” ì•„ì´í…œ, 50%í™•ë¥ ë¡œ ì´ë™ì†ë„ ì˜¬ë ¤ì£¼ëŠ” ì•„ì´í…œ
 
         if (Random.Range(0, 2) == 0)
         {
