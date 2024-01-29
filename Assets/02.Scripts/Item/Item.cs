@@ -7,7 +7,7 @@ using static UnityEditor.Progress;
 
 public class Item : MonoBehaviour
 {
-    public float _timer = 0f;  //½Ã°£À» Ã¼Å©ÇÒ º¯¼ö
+    public float _timer = 0f;  //ì‹œê°„ì„ ì²´í¬í•  ë³€ìˆ˜
     public const float EAT_TIME = 1.0f;
 
     private const float Follow_Time = 3f;
@@ -23,79 +23,75 @@ public class Item : MonoBehaviour
 
 
 
-    //(´Ù¸¥ Äİ¶óÀÌ´õ¿¡ ÀÇÇØ) Æ®¸®°Å°¡ ¹ßµ¿µÉ ¶§
+    //(ë‹¤ë¥¸ ì½œë¼ì´ë”ì— ì˜í•´) íŠ¸ë¦¬ê±°ê°€ ë°œë™ë  ë•Œ
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        //¾î¶² collider°¡ ³Ñ¾î¿Ô´ÂÁö¿¡ ´ëÇÑ Á¤º¸°¡ ³Ñ¾î¿È
-        //Debug.Log("Æ®¸®°Å½ÃÀÛ!");
+        //ì–´ë–¤ colliderê°€ ë„˜ì–´ì™”ëŠ”ì§€ì— ëŒ€í•œ ì •ë³´ê°€ ë„˜ì–´ì˜´
+        //Debug.Log("íŠ¸ë¦¬ê±°ì‹œì‘!");
 
-        //¸ñÀû : ÇÃ·¹ÀÌ¾îÀÇ Ã¼·ÂÀ» ¿Ã¸®°í ½Í´Ù.
+        //ëª©ì  : í”Œë ˆì´ì–´ì˜ ì²´ë ¥ì„ ì˜¬ë¦¬ê³  ì‹¶ë‹¤.
 
 
-        //¼ø¼­ : 
-        // 1. ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ® ¹Ş¾Æ¿À±â
+        //ìˆœì„œ : 
+        // 1. í”Œë ˆì´ì–´ ìŠ¤í¬ë¦½íŠ¸ ë°›ì•„ì˜¤ê¸°
         //GameObject playerGameObject = GameObject.Find("Player");
         //Player player = playerGameObject .GetComponent<Player>();
         Player player = otherCollider.gameObject.GetComponent<Player>();
 
-        // 2. ÇÃ·¹ÀÌ¾î Ã¼·Â ¿Ã¸®±â
+        // 2. í”Œë ˆì´ì–´ ì²´ë ¥ ì˜¬ë¦¬ê¸°
         //player.Health ++;
-        //Debug.Log($"ÇöÀçÇÃ·¹ÀÌ¾îÀÇ Ã¼·Â : {player.Health}");
+        //Debug.Log($"í˜„ì¬í”Œë ˆì´ì–´ì˜ ì²´ë ¥ : {player.Health}");
 
-     /*  ´Ù¸¥¹æ¹ı :  
+     /*  ë‹¤ë¥¸ë°©ë²• :  
          if (otherCollider.tag == "Player")
         {
             Player player = otherCollider.GetComponent<Player>(); //***************
             player.Health += 1;
-            Debug.Log($"ÇÃ·¹ÀÌ¾îÃ¼·Â : {player.Health}");
+            Debug.Log($"í”Œë ˆì´ì–´ì²´ë ¥ : {player.Health}");
         }*/
     }
 
-    //(´Ù¸¥ Äİ¶óÀÌ´õ¿¡ ÀÇÇØ) Æ®¸®°Å°¡ ¹ßµ¿ ÁßÀÏ ¶§
+    //(ë‹¤ë¥¸ ì½œë¼ì´ë”ì— ì˜í•´) íŠ¸ë¦¬ê±°ê°€ ë°œë™ ì¤‘ì¼ ë•Œ
     private void OnTriggerStay2D(Collider2D otherCollider)
     {
-       //Debug.Log("Æ®¸®°ÅÁß!");
+       //Debug.Log("íŠ¸ë¦¬ê±°ì¤‘!");
        // _timer += Time.deltaTime;
         //Debug.Log(_timer);
 
         if (_timer >= EAT_TIME)
         {
-            //Å¸ÀÔÀÌ 0ÀÌ¸é ÇÃ·¹ÀÌ¾îÀÇ Ã¼·Â ¿Ã·ÁÁÖ±â
+            //íƒ€ì…ì´ 0ì´ë©´ í”Œë ˆì´ì–´ì˜ ì²´ë ¥ ì˜¬ë ¤ì£¼ê¸°
             if (MyType == 0)
         {
                 //ItemEatSource.Play();
                 Player player = otherCollider.GetComponent<Player>();
-                player.Health += 1;
-                Debug.Log($"ÇöÀçÇÃ·¹ÀÌ¾îÀÇ Ã¼·Â : {player.Health}");
+                player.AddHealth(1);
+                //Debug.Log($"í˜„ì¬í”Œë ˆì´ì–´ì˜ ì²´ë ¥ : {}");
 
                 Destroy(this.gameObject);
                 GameObject vfx = Instantiate(HealthItemVFXPrefab);
                 vfx.transform.position = this.transform.position;
-
             }
             else if (MyType == 1)
             {
                 //ItemEatSource.Play();
-                //Å¸ÀÔÀÌ 1ÀÌ¸é ÇÃ·¹ÀÌ¾îÀÇ ½ºÇÇµå ¿Ã·ÁÁÖ±â
+                //íƒ€ì…ì´ 1ì´ë©´ í”Œë ˆì´ì–´ì˜ ìŠ¤í”¼ë“œ ì˜¬ë ¤ì£¼ê¸°
                 PlayerMove playerMove = otherCollider.GetComponent<PlayerMove>();
-                playerMove.Speed += 1;
-                Debug.Log($"ÇöÀçÇÃ·¹ÀÌ¾îÀÇ ¼Óµµ : {playerMove.Speed}");
-                
+                playerMove.AddSpeed(1);
+                //Debug.Log($"í˜„ì¬í”Œë ˆì´ì–´ì˜ ì†ë„ : {}");
+
                 Destroy(this.gameObject);
                 GameObject vfx = Instantiate(SpeedItemVFXPrefab);
                 vfx.transform.position = this.transform.position;
-
             }
-            }
+        }
     }
-    //(´Ù¸¥ Äİ¶óÀÌ´õ¿¡ ÀÇÇØ) Æ®¸®°Å°¡ ³¡³µÀ» ¶§
-    private void OnTriggerExit2D(Collider2D otherCollider)
+    //(ë‹¤ë¥¸ ì½œë¼ì´ë”ì— ì˜í•´) íŠ¸ë¦¬ê±°ê°€ ëë‚¬ì„ ë•Œ
+   /* private void OnTriggerExit2D(Collider2D otherCollider)
     {
-        //_timer = 0f;        //triggerÀ» ¹ş¾î³ª¸é timer´Â 0À¸·Î ÃÊ±âÈ­
-        //Debug.Log("Æ®¸®°ÅÁ¾·á!");
-
-     
-    }
+        //_timer = 0f;        //triggerì„ ë²—ì–´ë‚˜ë©´ timerëŠ” 0ìœ¼ë¡œ ì´ˆê¸°í™”
+        //Debug.Log("íŠ¸ë¦¬ê±°ì¢…ë£Œ!");
+    }*/
 
     private void Start()
     {
@@ -103,9 +99,9 @@ public class Item : MonoBehaviour
         MyAnimator = GetComponent<Animator>();
         MyAnimator.SetInteger("ItemType", MyType);
 
-        // scene¿¡ ÀÖ´Â »ç¿îµå¼Ò½º°¡ ÀÖ´Â ¿ÀºêÁ§Æ®
+        // sceneì— ìˆëŠ” ì‚¬ìš´ë“œì†ŒìŠ¤ê°€ ìˆëŠ” ì˜¤ë¸Œì íŠ¸
         GameObject SoundController = GameObject.Find("SoundController_item");
-        // ±× ¿ÀºêÁ§Æ®¿¡¼­ audiosource component¸¦ °¡Á®¿À±â
+        // ê·¸ ì˜¤ë¸Œì íŠ¸ì—ì„œ audiosource componentë¥¼ ê°€ì ¸ì˜¤ê¸°
         //ItemEatSource = SoundController.GetComponent<AudioSource>();
     }
 
@@ -116,16 +112,16 @@ public class Item : MonoBehaviour
         _timer += Time.deltaTime;
         if (_timer >=Follow_Time)
         {
-            //1.ÇÃ·¹ÀÌ¾î¸¦Ã£°í
+            //1.í”Œë ˆì´ì–´ë¥¼ì°¾ê³ 
             GameObject target = GameObject.FindGameObjectWithTag("Player");
-            //2.¹æÇâÀ»Á¤ÇÏ°í
+            //2.ë°©í–¥ì„ì •í•˜ê³ 
             Vector3 dir = target.transform.position - this.transform.position;
             dir.Normalize();
-            //3.½ºÇÇµå¿¡ ¸Â°Ô ÀÌµ¿
+            //3.ìŠ¤í”¼ë“œì— ë§ê²Œ ì´ë™
             Vector3 newPosition = transform.position + dir * 10f * Time.deltaTime;
             this.transform.position = newPosition;
         }
     }
 }
-//collision Ãæµ¹
-//collider Ãæµ¹Ã¼
+//collision ì¶©ëŒ
+//collider ì¶©ëŒì²´

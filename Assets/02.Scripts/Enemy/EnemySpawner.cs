@@ -4,45 +4,45 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class EnemySpawner : MonoBehaviour
-{//¿ªÇÒ : ÀÏÁ¤ ½Ã°£¸¶´Ù ÀûÀ» ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ »ý¼ºÇØ¼­ ³» À§Ä¡¿¡ °®´Ù ³õ°í ½Í´Ù
- //ÇÊ¿ä¼Ó¼º :
- //-ÀûÇÁ¸®ÆÕ
- //-ÀÏÁ¤½Ã°£
- //-ÇöÀç½Ã°£
- //±¸Çö¼ø¼­ : 
- //1. ½Ã°£ÀÌ Èå¸£´Ù°¡
- //2. ¸¸¾à ½Ã°£ÀÌ ÀÏÁ¤ ½Ã°£ÀÌ µÇ¸é
- //3. ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÀûÀ» »ý¼ºÇÑ´Ù
- //4. »ý¼ºÇÑ ÀûÀÇ À§Ä¡¸¦ ³» À§Ä¡·Î ¹Ù²Û´Ù
+{//ì—­í•  : ì¼ì • ì‹œê°„ë§ˆë‹¤ ì ì„ í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ìƒì„±í•´ì„œ ë‚´ ìœ„ì¹˜ì— ê°–ë‹¤ ë†“ê³  ì‹¶ë‹¤
+ //í•„ìš”ì†ì„± :
+ //-ì í”„ë¦¬íŒ¹
+ //-ì¼ì •ì‹œê°„
+ //-í˜„ìž¬ì‹œê°„
+ //êµ¬í˜„ìˆœì„œ : 
+ //1. ì‹œê°„ì´ íë¥´ë‹¤ê°€
+ //2. ë§Œì•½ ì‹œê°„ì´ ì¼ì • ì‹œê°„ì´ ë˜ë©´
+ //3. í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì ì„ ìƒì„±í•œë‹¤
+ //4. ìƒì„±í•œ ì ì˜ ìœ„ì¹˜ë¥¼ ë‚´ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤
 
-    [Header("Àû ÇÁ¸®ÆÕ")]
-    public GameObject EnemyPrefab;              // EnemyBasic ÇÁ¸®ÆÕ
-    public GameObject EnemyTargetPrefab;   // EnemyTarget ÇÁ¸®ÆÕ
-    public GameObject EnemyFollowPrefab;   // EnemyFollow ÇÁ¸®ÆÕ
+    [Header("ì  í”„ë¦¬íŒ¹")]
+    public GameObject EnemyPrefab;              // EnemyBasic í”„ë¦¬íŒ¹
+    public GameObject EnemyTargetPrefab;   // EnemyTarget í”„ë¦¬íŒ¹
+    public GameObject EnemyFollowPrefab;   // EnemyFollow í”„ë¦¬íŒ¹
 
-    [Header("Å¸ÀÌ¸Ó")]
-    public float SpawnTime = 0.8f;      //½ºÆù °£°Ý ½Ã°£
-    public float CurrentTimer = 0f;      //ÇöÀç °æ°ú ½Ã°£
-    public float Enemyrate;                  //Àû »ý¼º È®·ü
+    [Header("íƒ€ì´ë¨¸")]
+    public float SpawnTime = 0.8f;      //ìŠ¤í° ê°„ê²© ì‹œê°„
+    public float CurrentTimer = 0f;      //í˜„ìž¬ ê²½ê³¼ ì‹œê°„
+    public float Enemyrate;                  //ì  ìƒì„± í™•ë¥ 
 
-    //¸ñÇ¥ : Àû »ý¼º ½Ã°£À» ·£´ýÇÏ°Ô ÇÏ°í ½Í´Ù
-    //ÇÊ¿ä ¼Ó¼º :
-    //-ÃÖ¼Ò½Ã°£
-    //-ÃÖ´ë½Ã°£
-    public float MinTime = 0.5f;        //ÃÖ¼Ò ½ºÆù ½Ã°£
-    public float MaxTime = 1.5f;       //ÃÖ´ë ½ºÆù ½Ã°£
+    //ëª©í‘œ : ì  ìƒì„± ì‹œê°„ì„ ëžœë¤í•˜ê²Œ í•˜ê³  ì‹¶ë‹¤
+    //í•„ìš” ì†ì„± :
+    //-ìµœì†Œì‹œê°„
+    //-ìµœëŒ€ì‹œê°„
+    public float MinTime = 0.5f;        //ìµœì†Œ ìŠ¤í° ì‹œê°„
+    public float MaxTime = 1.5f;       //ìµœëŒ€ ìŠ¤í° ì‹œê°„
 
     private void Start()
-    { //½ÃÀÛÇÒ ¶§ Àû »ý¼º ½Ã°£À» ·£´ýÇÏ°Ô ¼³Á¤ÇÑ´Ù
+    { //ì‹œìž‘í•  ë•Œ ì  ìƒì„± ì‹œê°„ì„ ëžœë¤í•˜ê²Œ ì„¤ì •í•œë‹¤
         SetRandomTime();
     }
 
-    private void SetRandomTime()   //·£´ý½ºÆùÇÔ¼ö
+    private void SetRandomTime()   //ëžœë¤ìŠ¤í°í•¨ìˆ˜
     {
-        SpawnTime = Random.Range(MinTime, MaxTime);     //ÃÖ¼Ò¿Í ÃÖ´ë ½ºÆù ½Ã°£ »çÀÌ¿¡¼­ ·£´ýÇÑ ½Ã°£À» ¼±ÅÃ
+        SpawnTime = Random.Range(MinTime, MaxTime);     //ìµœì†Œì™€ ìµœëŒ€ ìŠ¤í° ì‹œê°„ ì‚¬ì´ì—ì„œ ëžœë¤í•œ ì‹œê°„ì„ ì„ íƒ
     }
 
-    private void SetRandomRate()   //·£´ý½ºÆùÇÔ¼ö
+    private void SetRandomRate()   //ëžœë¤ìŠ¤í°í•¨ìˆ˜
     {
         GameObject enemy = null;
         Enemyrate = Random.Range(0, 10);
@@ -62,18 +62,18 @@ public class EnemySpawner : MonoBehaviour
     }
 
     void Update()
-    {//±¸Çö¼ø¼­
-        //1.½Ã°£ÀÌ Èå¸£´Ù°¡
-        CurrentTimer += Time.deltaTime;     //°æ°ú½Ã°£À» ¾÷µ¥ÀÌÆ®
-        //2.ÀÏÁ¤½Ã°£ÀÌµÇ¸é
-        if (CurrentTimer >= SpawnTime)      //ÀÏÁ¤½Ã°£ÀÌ Áö³ª¸é
+    {//êµ¬í˜„ìˆœì„œ
+        //1.ì‹œê°„ì´ íë¥´ë‹¤ê°€
+        CurrentTimer += Time.deltaTime;     //ê²½ê³¼ì‹œê°„ì„ ì—…ë°ì´íŠ¸
+        //2.ì¼ì •ì‹œê°„ì´ë˜ë©´
+        if (CurrentTimer >= SpawnTime)      //ì¼ì •ì‹œê°„ì´ ì§€ë‚˜ë©´
         {
             CurrentTimer = 0f;
-            //´ÙÀ½ »ý¼º ½Ã°£À» ·£´ýÇÏ°Ô ¼³Á¤
+            //ë‹¤ìŒ ìƒì„± ì‹œê°„ì„ ëžœë¤í•˜ê²Œ ì„¤ì •
             SetRandomTime();
-            // ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÀûÀ» »ý¼º
+            // í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì ì„ ìƒì„±
             SetRandomRate();
-            //Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            //íƒ€ì´ë¨¸ ì´ˆê¸°í™”
         }
     }
 }

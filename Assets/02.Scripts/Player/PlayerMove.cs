@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -20,7 +20,8 @@ public class PlayerMove : MonoBehaviour
                 3. 이동할 방향과 이동 속도에 따라 플레이어를 이동시킨다
      */
 
-    public float Speed = 3f;      //speed가 의미하는 것 -> 속도 : 초당 3unit만큼 이동한다는 뜻
+    //은닉화
+    private float Speed = 3f;      //speed가 의미하는 것 -> 속도 : 초당 3unit만큼 이동한다는 뜻
 
     public const float MinX = -3f;
     public const float MaxX = 3f;
@@ -131,6 +132,21 @@ public class PlayerMove : MonoBehaviour
         }
         //getKey = 누르고 있는 동안
         //getKeyDown = 처음 눌렀을 때만
+    }
+
+
+    public float GetSpeed()
+    {
+        return Speed;
+    }
+    public void SetSpeed(float speed)
+    {
+         Speed = speed;
+    }
+    public void AddSpeed(float speed)
+    {
+        Speed += speed;
+        Debug.Log($"속도 : {Speed}");
     }
 }
 

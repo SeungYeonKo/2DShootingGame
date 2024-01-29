@@ -5,33 +5,33 @@ using UnityEngine;
 
 public class PlayerFire : MonoBehaviour
 {
-    // [ÃÑ¾Ë ¹ß»ç Á¦ÀÛ]
-    // ¸ñÇ¥: ÃÑ¾ËÀ» ¸¸µé¾î¼­ ¹ß»çÇÏ°í ½Í´Ù.
-    // ¼Ó¼º:
-    //   - ÃÑ¾Ë ÇÁ¸®ÆÕ
-    //   - ÃÑ±¸
-    // ±¸Çö ¼ø¼­
-    // 1. ¹ß»ç ¹öÆ°À» ´©¸£¸é
-    // 2. ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÃÑ¾ËÀ» µ¿ÀûÀ¸·Î ¸¸µé°í,
-    // 3. ¸¸µç ÃÑ¾ËÀÇ À§Ä¡¸¦ ÃÑ±¸ÀÇ À§Ä¡·Î ¹Ù²Û´Ù.
+    // [ì´ì•Œ ë°œì‚¬ ì œì‘]
+    // ëª©í‘œ: ì´ì•Œì„ ë§Œë“¤ì–´ì„œ ë°œì‚¬í•˜ê³  ì‹¶ë‹¤.
+    // ì†ì„±:
+    //   - ì´ì•Œ í”„ë¦¬íŒ¹
+    //   - ì´êµ¬
+    // êµ¬í˜„ ìˆœì„œ
+    // 1. ë°œì‚¬ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´
+    // 2. í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì´ì•Œì„ ë™ì ìœ¼ë¡œ ë§Œë“¤ê³ ,
+    // 3. ë§Œë“  ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
 
-    [Header("ÃÑ¾Ë ÇÁ¸®ÆÕ")]
-    public GameObject BulletPrefab;  // ÃÑ¾Ë ÇÁ¸®ÆÕ
-    public GameObject SubBulletPrefab;  // º¸Á¶ ÃÑ¾Ë ÇÁ¸®ÆÕ
+    [Header("ì´ì•Œ í”„ë¦¬íŒ¹")]
+    public GameObject BulletPrefab;  // ì´ì•Œ í”„ë¦¬íŒ¹
+    public GameObject SubBulletPrefab;  // ë³´ì¡° ì´ì•Œ í”„ë¦¬íŒ¹
   
 
-    [Header("ÃÑ±¸µé")]
-    public GameObject[] Muzzles;     // ÃÑ±¸µé
-    public GameObject[] SubMuzzles;  // ÃÑ±¸µé
+    [Header("ì´êµ¬ë“¤")]
+    public GameObject[] Muzzles;     // ì´êµ¬ë“¤
+    public GameObject[] SubMuzzles;  // ì´êµ¬ë“¤
 
-    [Header("Å¸ÀÌ¸Ó")]
-    public float Timer = 10f;       //ÃÑ¾Ë¹ß»ç¿ëÅ¸ÀÌ¸Ó
-    public const float COOL_TIME = 0.6f;        //ÃÑ¾Ë¹ß»ç¿ëÅ¸ÀÌ¸Ó
+    [Header("íƒ€ì´ë¨¸")]
+    public float Timer = 10f;       //ì´ì•Œë°œì‚¬ìš©íƒ€ì´ë¨¸
+    public const float COOL_TIME = 0.6f;        //ì´ì•Œë°œì‚¬ìš©íƒ€ì´ë¨¸
 
     public const float BoomCoolTime = 5f;
     public float BoomTime = 0f;
 
-    [Header("ÀÚµ¿ ¸ğµå")]
+    [Header("ìë™ ëª¨ë“œ")]
     public bool AutoMode = false;
 
     public AudioSource FireSource;
@@ -44,7 +44,7 @@ public class PlayerFire : MonoBehaviour
     }
 
     void Update()
-    {// Å¸ÀÌ¸Ó °è»ê
+    {// íƒ€ì´ë¨¸ ê³„ì‚°
         Timer -= Time.deltaTime;
         BoomTime += Time.deltaTime;
 
@@ -69,49 +69,49 @@ public class PlayerFire : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log("ÀÚµ¿ °ø°İ ¸ğµå");
+            Debug.Log("ìë™ ê³µê²© ëª¨ë“œ");
             AutoMode = true;
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Debug.Log("¼öµ¿ °ø°İ ¸ğµå");
+            Debug.Log("ìˆ˜ë™ ê³µê²© ëª¨ë“œ");
             AutoMode = false;
         }
     }
     private void Fire()
     {
-        // 1. Å¸ÀÌ¸Ó°¡ 0º¸´Ù ÀÛÀº »óÅÂ¿¡¼­ ¹ß»ç ¹öÆ°À» ´©¸£¸é
+        // 1. íƒ€ì´ë¨¸ê°€ 0ë³´ë‹¤ ì‘ì€ ìƒíƒœì—ì„œ ë°œì‚¬ ë²„íŠ¼ì„ ëˆ„ë¥´ë©´
         bool ready = AutoMode || Input.GetKeyDown(KeyCode.Space);
         if (Timer <= 0 && ready)
         {
             FireSource.Play();
 
-            // Å¸ÀÌ¸Ó ÃÊ±âÈ­
+            // íƒ€ì´ë¨¸ ì´ˆê¸°í™”
             Timer = COOL_TIME;
 
-            // 2. ÇÁ¸®ÆÕÀ¸·ÎºÎÅÍ ÃÑ¾ËÀ» ¸¸µç´Ù.
+            // 2. í”„ë¦¬íŒ¹ìœ¼ë¡œë¶€í„° ì´ì•Œì„ ë§Œë“ ë‹¤.
             //GameObject bullet1 = Instantiate(BulletPrefab);
             //GameObject bullet2 = Instantiate(BulletPrefab);
 
-            // 3. ¸¸µç ÃÑ¾ËÀÇ À§Ä¡¸¦ ÃÑ±¸ÀÇ À§Ä¡·Î ¹Ù²Û´Ù.
+            // 3. ë§Œë“  ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
             //bullet1.transform.position = Muzzle.transform.position;
             //bullet2.transform.position = Muzzle2.transform.position;
 
-            // ¸ñÇ¥: ÃÑ±¸ °³¼ö ¸¸Å­ ÃÑ¾ËÀ» ¸¸µé°í, ¸¸µç ÃÑ¾ËÀÇ À§Ä¡¸¦ °¢ ÃÑ±¸ÀÇ À§Ä¡·Î ¹Ù²Û´Ù.
+            // ëª©í‘œ: ì´êµ¬ ê°œìˆ˜ ë§Œí¼ ì´ì•Œì„ ë§Œë“¤ê³ , ë§Œë“  ì´ì•Œì˜ ìœ„ì¹˜ë¥¼ ê° ì´êµ¬ì˜ ìœ„ì¹˜ë¡œ ë°”ê¾¼ë‹¤.
             for (int i = 0; i < Muzzles.Length; i++)
             {
-                // 1. ÃÑ¾ËÀ» ¸¸µé°í
+                // 1. ì´ì•Œì„ ë§Œë“¤ê³ 
                 GameObject bullet = Instantiate(BulletPrefab);
-                // 2. À§Ä¡¸¦ ¼³Á¤ÇÑ´Ù.
+                // 2. ìœ„ì¹˜ë¥¼ ì„¤ì •í•œë‹¤.
                 bullet.transform.position = Muzzles[i].transform.position;
             }
 
             for (int i = 0; i < SubMuzzles.Length; i++)
             {
-                // 1. ÃÑ¾ËÀ» ¸¸µé°í
+                // 1. ì´ì•Œì„ ë§Œë“¤ê³ 
                 GameObject subBullet = Instantiate(SubBulletPrefab);
 
-                // 2. À§Ä¡¸¦ ¼³Á¤ÇÑ´Ù.
+                // 2. ìœ„ì¹˜ë¥¼ ì„¤ì •í•œë‹¤.
                 subBullet.transform.position = SubMuzzles[i].transform.position;
             }
         }

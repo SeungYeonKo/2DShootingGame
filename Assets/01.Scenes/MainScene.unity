@@ -206,7 +206,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreTextUI: {fileID: 179038813}
   BestScoreTextUI: {fileID: 712964049}
-  Score: 0
   BestScore: 0
 --- !u!4 &64180574
 Transform:
@@ -2643,8 +2642,8 @@ GameObject:
   - component: {fileID: 5244984401376404274}
   - component: {fileID: 5244984401376404278}
   - component: {fileID: 5244984401376404279}
-  - component: {fileID: 5244984401376404277}
   - component: {fileID: 5244984401376404275}
+  - component: {fileID: 5244984401376404277}
   - component: {fileID: 5244984401376404276}
   - component: {fileID: 5244984401376404280}
   - component: {fileID: 5244984401376404281}
@@ -3617,7 +3616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c6423e36e6c6343ae4642067bc0205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 5
   TouchSource: {fileID: 5244984401376404283}
 --- !u!114 &5244984401376404276
 MonoBehaviour:
@@ -3655,7 +3653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac55848fb0eae249b4aa2bf0bbde6c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
   MyAnimator: {fileID: 5244984401376404281}
 --- !u!212 &5244984401376404278
 SpriteRenderer:
