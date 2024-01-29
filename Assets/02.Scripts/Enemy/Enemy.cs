@@ -124,16 +124,16 @@ public class Enemy : MonoBehaviour
             //충돌한 객체로부터 Player 컴포넌트 가져오기
             Player player = collision.collider.GetComponent<Player>();
             //플레이어 체력 감소
-            player.Health -= 1;
+            player.MinusHealth(1);
+            
+            //Health -= 1;
 
             //플레이어 체력이 0 이하일 경우 플레이어 죽음
-            if (player.Health <= 0)
+            if (Health <= 0)
             {
                 Death();
-
             }
             Death();
-            //플레이어랑 닿았을 때 enemy(나 자신) 죽는다
         }
 
         //총알과의 충돌 체크
@@ -174,7 +174,7 @@ public class Enemy : MonoBehaviour
         GameObject vfx = Instantiate(ExplosionVFXPrefab);
         vfx.transform.position = this.transform.position;
 
-        
+
         //목표 : 스코어를 증가시키고 싶다
         //1. Score를 증가시키기 위혀서는 씬에서 ScoreManager 오브젝트를 찾아온다
         GameObject smGameObject = GameObject.Find("ScoreManager");
@@ -182,10 +182,12 @@ public class Enemy : MonoBehaviour
         ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
         // 3. 컴포넌트의 Score속성을 증가시킨다
 
+      
+
         //(Get/Set) 캡슐화
         int score = scoreManager.GetScore();
         scoreManager.SetScore(score+1);
-        Debug.Log(scoreManager.GetScore());
+        //Debug.Log(scoreManager.GetScore());
 
     }
 

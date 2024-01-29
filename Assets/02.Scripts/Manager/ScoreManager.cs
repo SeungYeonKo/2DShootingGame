@@ -6,26 +6,41 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
-{   //���� :  ������ �����Ѵ�
-    //��ǥ : ���� ���� �� ���� ������ �ø���, ���� ������ UI�� ǥ���ϰ� �ʹ�
-    //�ʿ� �Ӽ�
-    // - ���� ������ ǥ���� UI
-    public Text ScoreTextUI;            //UnityEngine.UI���� ������ Text Ŭ�����̱� ������ ������ ������Ѵ�
-    public Text BestScoreTextUI;            //UnityEngine.UI���� ������ Text Ŭ�����̱� ������ ������ ������Ѵ�
+{  /*
+    디자인패턴 : 옛날부터 소프트웨어 개발 과정에서 발견된 설계 노하우에 이름을 붙여 재사용하기 좋은 형태로 묶어 정리한 것
+        장점 : 서로 같은 패턴을 알고 있을 때 의사소통이 잘된다(내용,설계원칙,특성,조건 등)
+            -모범사례이므로, 가독성/유지보수/확장성/신뢰성Up
+        단점 : 오용과 남용
+            -초기에 학습 곡선이 있다(처음 적용에 시간이 든다)
+        알면 좋은 패턴 : 싱글톤, 오브젝트 풀, 상태, 옵저버, 팩토리*/
+    public Text ScoreTextUI;           
+    public Text BestScoreTextUI;            
 
-    // - ���� ������ ����� ����
     private int _score = 0;
     public int BestScore = 0;
 
-    // ��ǥ : ������ ������ �� �ְ������� �ҷ�����, UI�� ǥ���ϰ� �ʹ�
-    // ���� ����:
-    // 1. ������ ������ ��
+    //  ScoreManager가 점수를 관리하는 유일한 매니저이므로 싱글톤을 적용하는게 편하다
+    public static ScoreManager Instance;  //ScoreManager 객체
+    private void Awake()
+    {
+        Debug.Log("ScoreManager 객체의 Awake 호출");
+        if(Instance == null)
+        {
+            Debug.Log("새로 생성된 것");
+            Instance = this;
+        }
+        else
+        {
+            Debug.Log("이미 있다!!!!!!!!!!!!!!!!!!");
+            Destroy(gameObject);
+        }
+    }
+
+
     private void Start()
     {
-        // 2. �ְ� ������ �ҷ��´�
         BestScore = PlayerPrefs.GetInt("BestScore", 0);
-        // 3. UI�� ǥ���Ѵ�
-        BestScoreTextUI.text = $"�ְ����� : {BestScore}";
+        BestScoreTextUI.text = $"최고 점수 : {BestScore}";
     }
 
     //목표 : score속성에 대한 캡슐화 (get/set)
@@ -33,6 +48,8 @@ public class ScoreManager : MonoBehaviour
     {
         return _score;
     }
+
+    //캡슐화
     public void SetScore(int score)
     {
         //유효성 검사
@@ -52,10 +69,7 @@ public class ScoreManager : MonoBehaviour
             // 2. 최고 점수를 갱신하고,
             BestScore = _score;
 
-            // 목표 : 최고 점수를 저장
-            // PlayerPrefs 클래스를 사용
-            // -> 값을 키(key)와 값(value) 형태로 저장하는 클래스
-            // 저장할 수 있는 데이터타입 : int, float, string
+         
             // 타입별로 저장/로드가 가능한 Set/Get 메서드가 있다
             PlayerPrefs.SetInt("BestScore", BestScore);
 
