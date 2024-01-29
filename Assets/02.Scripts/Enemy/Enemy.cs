@@ -163,7 +163,6 @@ public class Enemy : MonoBehaviour
             {
                     MyAnimator.Play("Hit"); 
             }
-    
         }
     }
 
@@ -174,23 +173,21 @@ public class Enemy : MonoBehaviour
         GameObject vfx = Instantiate(ExplosionVFXPrefab);
         vfx.transform.position = this.transform.position;
 
-
         //목표 : 스코어를 증가시키고 싶다
         //1. Score를 증가시키기 위혀서는 씬에서 ScoreManager 오브젝트를 찾아온다
-        GameObject smGameObject = GameObject.Find("ScoreManager");
+        //GameObject smGameObject = GameObject.Find("ScoreManager");
         // 2. ScoreManager 게임 오브젝트에서 ScoreManager 스크립트 컴포넌트를 얻어온다
-        ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
+        //ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
         // 3. 컴포넌트의 Score속성을 증가시킨다
 
-      
+       // ScoreManager.Instance.Score += 1;
+        ScoreManager.Instance.Score = ScoreManager.Instance.Score + 1;
 
         //(Get/Set) 캡슐화
-        int score = scoreManager.GetScore();
-        scoreManager.SetScore(score+1);
+       /* int score = scoreManager.GetScore();
+        scoreManager.SetScore(score+1);*/
         //Debug.Log(scoreManager.GetScore());
-
     }
-
 
     public void MakeItem()
     { //순서 : 
