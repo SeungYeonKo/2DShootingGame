@@ -18,11 +18,37 @@ public class PlayerFire : MonoBehaviour
     [Header("총알 프리팹")]
     public GameObject BulletPrefab;  // 총알 프리팹
     public GameObject SubBulletPrefab;  // 보조 총알 프리팹
-  
+
+    // 목표 : 태어날 때 풀에다가 총알을 '풀 사이즈'개 생성한다
+    // 속성 : 
+    // - 풀 사이즈 
+    public int PoolSize = 100;
+    // - 오브젝트(Bullet) 풀
+    public List<GameObject> _bulletPool = null;
+
+    // 순서 :
+    // 1. 태어날 때 : Awake
+    private void Awake()
+    {
+        // 2. 오브젝트 풀 할당해주고 
+        _bulletPool = new List<GameObject>();
+
+        // 3. 총알 프리팹으로부터 총알을 풀 사이즈만큼 생성해준다
+        for (int i = 0; i < PoolSize; i++)
+        {
+           GameObject bullet = Instantiate(BulletPrefab);
+
+            // 4. 생성한 총알을 풀에다가 넣는다
+            _bulletPool.Add(bullet);
+
+            // 5. 끈다
+            bullet.SetActive(false);
+        }
+    }
 
     [Header("총구들")]
-    public List<GameObject>Muzzles = new List<GameObject>();
-    public List<GameObject>SubMuzzles = new List<GameObject>();
+    public List<GameObject>Muzzles;
+    public List<GameObject>SubMuzzles;
    // public GameObject[] Muzzles;     // 총구들
    // public GameObject[] SubMuzzles;  // 총구들
 
@@ -30,8 +56,8 @@ public class PlayerFire : MonoBehaviour
     public float Timer = 10f;       //총알발사용타이머
     public const float COOL_TIME = 0.6f;        //총알발사용타이머
 
-    public const float BoomCoolTime = 5f;
     public float BoomTime = 0f;
+    public const float BoomCoolTime = 5f;
 
     [Header("자동 모드")]
     public bool AutoMode = false;
@@ -91,6 +117,7 @@ public class PlayerFire : MonoBehaviour
             // 타이머 초기화
             Timer = COOL_TIME;
 
+
             // 2. 프리팹으로부터 총알을 만든다.
             //GameObject bullet1 = Instantiate(BulletPrefab);
             //GameObject bullet2 = Instantiate(BulletPrefab);
@@ -99,13 +126,34 @@ public class PlayerFire : MonoBehaviour
             //bullet1.transform.position = Muzzle.transform.position;
             //bullet2.transform.position = Muzzle2.transform.position;
 
-            // 목표: 총구 개수 만큼 총알을 만들고, 만든 총알의 위치를 각 총구의 위치로 바꾼다.
+            // 목표 : 총구 개수 만큼 총알을 플에서 꺼내 쓴다
+            // 순서 : 
+            // 1. 꺼져있는 총알을 꺼낸다
+            // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
+           
+            // 3. 총알을 킨다(발사)
             for (int i = 0; i < Muzzles.Count; i++)
             {
-                // 1. 총알을 만들고
-                GameObject bullet = Instantiate(BulletPrefab);
-                // 2. 위치를 설정한다.
+                // 1. 꺼져있는 총알을 찾아 꺼낸다
+                GameObject bullet = null;
+               foreach(GameObject b in _bulletPool)
+                {
+                    //만약에 꺼져있다면
+                    if (b.activeInHierarchy == false)
+                    {
+                        bullet = b;
+                        break;  //찾았기 때문에 그 뒤까지 찾을 필요가 없다
+                    }
+                }
+                // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
                 bullet.transform.position = Muzzles[i].transform.position;
+                // 3. 총알을 킨다(발사)
+                bullet.SetActive(true);
+
+                // 1. 총알을 만들고
+                //GameObject bullet = Instantiate(BulletPrefab);
+                // 2. 위치를 설정한다.
+                // bullet.transform.position = Muzzles[i].transform.position;
             }
 
             for (int i = 0; i < SubMuzzles.Count; i++)

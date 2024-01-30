@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyZone : MonoBehaviour
-{//¸ñÇ¥ : ´Ù¸¥ ¹°Ã¼¿Í Ãæµ¹ÇÏ¸é Ãæµ¹ÇÑ ¹°Ã¼¸¦ ÆÄ±«(»èÁ¦)ÇÑ´Ù
- //±¸Çö ¼ø¼­:
- // 1. ¸¸¾à ´Ù¸¥ ¹°Ã¼¿Í Ãæµ¹ÇÏ¸é
- // 2. Ãæµ¹ÇÑ ¹°Ã¼¸¦ ÆÄ±«ÇÑ´Ù
+{//ëª©í‘œ : ë‹¤ë¥¸ ë¬¼ì²´ì™€ ì¶©ëŒí•˜ë©´ ì¶©ëŒí•œ ë¬¼ì²´ë¥¼ íŒŒê´´(ì‚­ì œ)í•œë‹¤
+ //êµ¬í˜„ ìˆœì„œ:
+ // 1. ë§Œì•½ ë‹¤ë¥¸ ë¬¼ì²´ì™€ ì¶©ëŒí•˜ë©´
+ // 2. ì¶©ëŒí•œ ë¬¼ì²´ë¥¼ íŒŒê´´í•œë‹¤
 
-    //1. ¸¸¾à¿¡ ´Ù¸¥ ¹°Ã¼¿Í Ãæµ¹ÇÏ¸é
+    //1. ë§Œì•½ì— ë‹¤ë¥¸ ë¬¼ì²´ì™€ ì¶©ëŒí•˜ë©´
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        //2. Ãæµ¹ÇÑ ¹°Ã¼¸¦ ÆÄ±«ÇÑ´Ù
-        Destroy(otherCollider.gameObject);          
+        if (otherCollider.tag == "Bullet")
+        {
+            otherCollider.gameObject.SetActive(false);      //bulletì´ë¼ë©´ ì‚­ì œê°€ì•„ë‹Œ êº¼ì¤€ë‹¤
+        }
+        else
+        {
+            //2. ì¶©ëŒí•œ ë¬¼ì²´ë¥¼ íŒŒê´´í•œë‹¤
+            Destroy(otherCollider.gameObject);
+        }
     }
 }
