@@ -20,17 +20,43 @@ public class EnemySpawner : MonoBehaviour
     public GameObject EnemyTargetPrefab;   // EnemyTarget 프리팹
     public GameObject EnemyFollowPrefab;   // EnemyFollow 프리팹
 
+    //풀사이즈
+    public int PoolSize = 15;
+    //풀
+    public List<Enemy> EnemyPool;
+
     [Header("타이머")]
     public float SpawnTime = 0.8f;      //스폰 간격 시간
     public float CurrentTimer = 0f;      //현재 경과 시간
     public float Enemyrate;                  //적 생성 확률
 
-    //목표 : 적 생성 시간을 랜덤하게 하고 싶다
-    //필요 속성 :
-    //-최소시간
-    //-최대시간
     public float MinTime = 0.5f;        //최소 스폰 시간
     public float MaxTime = 1.5f;       //최대 스폰 시간
+
+    private void Awake()
+    {
+        EnemyPool = new List<Enemy>();
+
+        // (생성 -> 끄고 -> 넣는다) * PoolSize(15)
+        for (int i = 0; i < PoolSize; i++)
+        {
+            GameObject enemyObject =Instantiate(EnemyPrefab);       //베이직생성
+            enemyObject.SetActive(false);
+            EnemyPool.Add(enemyObject.GetComponent<Enemy>());
+        }
+        for (int i = 0; i < PoolSize; i++)
+        {
+            GameObject enemyObject = Instantiate(EnemyFollowPrefab);       //팔로우생성
+            enemyObject.SetActive(false);
+            EnemyPool.Add(enemyObject.GetComponent<Enemy>());
+        }
+        for (int i = 0; i < PoolSize; i++)
+        {
+            GameObject enemyObject = Instantiate(EnemyTargetPrefab);       //타겟생성
+            enemyObject.SetActive(false);
+            EnemyPool.Add(enemyObject.GetComponent<Enemy>());
+        }
+    }
 
     private void Start()
     { //시작할 때 적 생성 시간을 랜덤하게 설정한다
@@ -44,21 +70,43 @@ public class EnemySpawner : MonoBehaviour
 
     private void SetRandomRate()   //랜덤스폰함수
     {
-        GameObject enemy = null;
+        Enemy enemy = null;
         Enemyrate = Random.Range(0, 10);
         if (Enemyrate <1)
         {
-             enemy = Instantiate(EnemyFollowPrefab);
+            foreach (Enemy e in EnemyPool)
+            {
+                if(!e.gameObject.activeInHierarchy && e.EType == EnemyType.Follow)
+                {
+                    enemy = e;
+                    break;
+                }
+            }
         }
         else if (Enemyrate <4  &&  Enemyrate >1)
         {
-           enemy = Instantiate(EnemyTargetPrefab);
+            foreach (Enemy e in EnemyPool)
+            {
+                if (!e.gameObject.activeInHierarchy && e.EType == EnemyType.Target)
+                {
+                    enemy = e;
+                    break;
+                }
+            }
         }
         else
         {
-           enemy = Instantiate(EnemyPrefab);
+            foreach (Enemy e in EnemyPool)
+            {
+                if (!e.gameObject.activeInHierarchy && e.EType == EnemyType.Basic)
+                {
+                    enemy = e;
+                    break;
+                }
+            }
         }
         enemy.transform.position = this.transform.position;
+        enemy.gameObject.SetActive(true);
     }
 
     void Update()

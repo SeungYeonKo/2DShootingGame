@@ -11,7 +11,7 @@ public class DestroyZone : MonoBehaviour
     //1. 만약에 다른 물체와 충돌하면
     private void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        if (otherCollider.tag == "Bullet")
+        if (otherCollider.tag == "Bullet" || otherCollider.tag == "Enemy")
         {
             otherCollider.gameObject.SetActive(false);      //bullet이라면 삭제가아닌 꺼준다
         }
