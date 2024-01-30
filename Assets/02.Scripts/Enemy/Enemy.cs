@@ -53,6 +53,10 @@ public class Enemy : MonoBehaviour
         //캐싱 : 자주 쓰는 데이터를 더 가까운 장소에 저장해두고 필요할 때 가져다 쓰는 것
         //시작할 때 플레이어를 찾아서 기억해둔다
         _target = GameObject.Find("Player");
+        if(_target == null)
+        {
+            EType = EnemyType.Basic;
+        }
 
         MyAnimator = GetComponent<Animator>();
 
@@ -119,7 +123,7 @@ public class Enemy : MonoBehaviour
 
 
         //플레이어와의 충돌 체크
-        if (collision.collider.tag == "Player")
+        if (collision.collider.CompareTag ( "Player"))
         {
             //충돌한 객체로부터 Player 컴포넌트 가져오기
             Player player = collision.collider.GetComponent<Player>();
@@ -137,11 +141,10 @@ public class Enemy : MonoBehaviour
         }
 
         //총알과의 충돌 체크
-        else if (collision.collider.tag == "Bullet")
+        else if (collision.collider.CompareTag("Bullet"))
         {
             //충돌한 객체로부터 Bullet 컴포넌트 가져오기
             Bullet bullet = collision.collider.GetComponent<Bullet>();
-            Destroy(collision.collider.gameObject);
             
 
             //주 총알인 경우 적의 체력을 0으로 *************************
@@ -156,6 +159,7 @@ public class Enemy : MonoBehaviour
             if(Health <= 0)
             {
                 DieSound.Play();
+                
                 Death();
                 MakeItem();
             }
@@ -163,13 +167,15 @@ public class Enemy : MonoBehaviour
             {
                     MyAnimator.Play("Hit"); 
             }
+            //Destroy(collision.collider.gameObject);
+            collision.collider.gameObject.SetActive(false);     //총알삭제x, 그냥 끄기
         }
     }
 
     // 만약에 적을 잡으면 = 적이 죽으면 
     public void Death()
     {
-        Destroy(this.gameObject);
+        gameObject.SetActive(false);        //나 자신을 꺼준다
         GameObject vfx = Instantiate(ExplosionVFXPrefab);
         vfx.transform.position = this.transform.position;
 
@@ -180,8 +186,8 @@ public class Enemy : MonoBehaviour
         //ScoreManager scoreManager = smGameObject.GetComponent<ScoreManager>();
         // 3. 컴포넌트의 Score속성을 증가시킨다
 
-       // ScoreManager.Instance.Score += 1;
-        ScoreManager.Instance.Score = ScoreManager.Instance.Score + 1;
+       ScoreManager.Instance.Score += 1;
+       //ScoreManager.Instance.Score = ScoreManager.Instance.Score + 1;
 
         //(Get/Set) 캡슐화
        /* int score = scoreManager.GetScore();

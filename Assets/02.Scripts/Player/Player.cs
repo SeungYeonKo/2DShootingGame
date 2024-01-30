@@ -37,7 +37,7 @@ public class Player : MonoBehaviour
 
         if(Health <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         Debug.Log($"현재 체력 : {Health}");
