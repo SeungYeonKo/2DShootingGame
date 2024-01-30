@@ -21,8 +21,10 @@ public class PlayerFire : MonoBehaviour
   
 
     [Header("총구들")]
-    public GameObject[] Muzzles;     // 총구들
-    public GameObject[] SubMuzzles;  // 총구들
+    public List<GameObject>Muzzles = new List<GameObject>();
+    public List<GameObject>SubMuzzles = new List<GameObject>();
+   // public GameObject[] Muzzles;     // 총구들
+   // public GameObject[] SubMuzzles;  // 총구들
 
     [Header("타이머")]
     public float Timer = 10f;       //총알발사용타이머
@@ -98,7 +100,7 @@ public class PlayerFire : MonoBehaviour
             //bullet2.transform.position = Muzzle2.transform.position;
 
             // 목표: 총구 개수 만큼 총알을 만들고, 만든 총알의 위치를 각 총구의 위치로 바꾼다.
-            for (int i = 0; i < Muzzles.Length; i++)
+            for (int i = 0; i < Muzzles.Count; i++)
             {
                 // 1. 총알을 만들고
                 GameObject bullet = Instantiate(BulletPrefab);
@@ -106,7 +108,7 @@ public class PlayerFire : MonoBehaviour
                 bullet.transform.position = Muzzles[i].transform.position;
             }
 
-            for (int i = 0; i < SubMuzzles.Length; i++)
+            for (int i = 0; i < SubMuzzles.Count; i++)
             {
                 // 1. 총알을 만들고
                 GameObject subBullet = Instantiate(SubBulletPrefab);
