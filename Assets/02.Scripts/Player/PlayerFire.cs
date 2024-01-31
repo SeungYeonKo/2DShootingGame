@@ -90,20 +90,26 @@ public class PlayerFire : MonoBehaviour
         BoomTime += Time.deltaTime;
 
         CheckAutoMode();
-        Fire();
-        Boom();
-    }
-    private void Boom()
-    {
+
+        bool ready = AutoMode || Input.GetKeyDown(KeyCode.Space);
+        if (Timer <= 0 && ready)
+        {
+            Fire();
+        }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
+            Boom();
+        }
+    }
+
+    private void Boom()
+    {
             if(BoomTime >= BoomCoolTime)
             { 
                 GameObject Boom = Instantiate(BoomSkill);
                 Boom.transform.position = Vector3.zero;
                 BoomTime = 0;
             }
-        }
     }
 
     private void CheckAutoMode()
@@ -120,33 +126,14 @@ public class PlayerFire : MonoBehaviour
         }
     }
     private void Fire()
-    {
-        // 1. 타이머가 0보다 작은 상태에서 발사 버튼을 누르면
-        bool ready = AutoMode || Input.GetKeyDown(KeyCode.Space);
-        if (Timer <= 0 && ready)
-        {
+    {  
             FireSource.Play();
 
-            // 타이머 초기화
-            Timer = COOL_TIME;
+        // 타이머 초기화
+        Timer = COOL_TIME;
 
-
-            // 2. 프리팹으로부터 총알을 만든다.
-            //GameObject bullet1 = Instantiate(BulletPrefab);
-            //GameObject bullet2 = Instantiate(BulletPrefab);
-
-            // 3. 만든 총알의 위치를 총구의 위치로 바꾼다.
-            //bullet1.transform.position = Muzzle.transform.position;
-            //bullet2.transform.position = Muzzle2.transform.position;
-
-            // 목표 : 총구 개수 만큼 총알을 플에서 꺼내 쓴다
-            // 순서 : 
-            // 1. 꺼져있는 총알을 꺼낸다
-            // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
-
-            // 3. 총알을 킨다(발사)
-            // 3-1. 메인총알
-            for (int i = 0; i < Muzzles.Count; i++)
+        // 3-1. 메인총알
+        for (int i = 0; i < Muzzles.Count; i++)
             {
                 // 1. 꺼져있는 총알을 찾아 꺼낸다
                 Bullet bullet = null;
@@ -164,7 +151,6 @@ public class PlayerFire : MonoBehaviour
                 // 3. 총알을 킨다(발사)
                 bullet.gameObject.SetActive(true);
             }
-
             // 3-2. 서브총알
             for (int i = 0; i < SubMuzzles.Count; i++)
             {
@@ -184,7 +170,56 @@ public class PlayerFire : MonoBehaviour
                 // 3. 총알을 킨다(발사)
                 SubBullet.gameObject.SetActive(true);
             }
+    }
+
+/*    private void ClickAutoMode()
+    {
+        if(AutoMode == true)
+        {
+            AutoMode = false;
+        }
+        else if(AutoMode == false)
+        {
+            AutoMode = true;
+        }
+    }*/
+
+    //조이스틱
+    // 총알 발사
+    public void OnClickXButton()
+    {
+        Debug.Log("X 버튼이 클릭되었습니다");
+        if (Timer <= 0)
+        {
+            Fire();
         }
     }
 
+    // 자동 공격 On/Off
+    public void OnClickYButton()
+    {
+        Debug.Log("Y 버튼이 클릭되었습니다");
+        AutoMode = !AutoMode;
+    }
+
+    // 궁극기 사용
+    public void OnClickBButton()
+    {
+        Debug.Log("B 버튼이 클릭되었습니다");
+        Boom();
+    }
+
 }
+    // 2. 프리팹으로부터 총알을 만든다.
+    //GameObject bullet1 = Instantiate(BulletPrefab);
+    //GameObject bullet2 = Instantiate(BulletPrefab);
+
+    // 3. 만든 총알의 위치를 총구의 위치로 바꾼다.
+    //bullet1.transform.position = Muzzle.transform.position;
+    //bullet2.transform.position = Muzzle2.transform.position;
+
+    // 목표 : 총구 개수 만큼 총알을 플에서 꺼내 쓴다
+    // 순서 : 
+    // 1. 꺼져있는 총알을 꺼낸다
+    // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
+    // 3. 총알을 킨다(발사)
