@@ -2,10 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.iOS;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+
 
 public class PlayerMove : MonoBehaviour
 {//player이동에 대한 책임을 가진 객체 생성
