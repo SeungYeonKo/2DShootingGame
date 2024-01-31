@@ -24,16 +24,16 @@ public class PlayerFire : MonoBehaviour
     // - 풀 사이즈 
     public int PoolSize = 100;
     // - 오브젝트(Bullet) 풀
-    public List<GameObject> _bulletPool = null;
-    public List<GameObject> _SubbulletPool = null;
+    public List<Bullet> _bulletPool = null;
+    //public List<GameObject> _subbulletPool = null;
 
     // 순서 :
     // 1. 태어날 때 : Awake
     private void Awake()
     {
         // 2. 오브젝트 풀 할당해주고 
-        _bulletPool = new List<GameObject>();
-        _SubbulletPool = new List<GameObject>();
+        _bulletPool = new List<Bullet>();
+        //_subbulletPool = new List<GameObject>();
 
         // 3. 총알 프리팹으로부터 총알을 풀 사이즈만큼 생성해준다
         for (int i = 0; i < PoolSize; i++)
@@ -41,26 +41,27 @@ public class PlayerFire : MonoBehaviour
            GameObject bullet = Instantiate(BulletPrefab);
 
             // 4. 생성한 총알을 풀에다가 넣는다
-            _bulletPool.Add(bullet);
+            _bulletPool.Add(bullet.GetComponent<Bullet>());
 
             // 5. 끈다
             bullet.SetActive(false);
         }
         for (int i = 0; i < PoolSize; i++)
         {
-            GameObject SubBullet = Instantiate(SubBulletPrefab);
+            GameObject subBullet = Instantiate(SubBulletPrefab);
 
             // 4. 생성한 총알을 풀에다가 넣는다
-            _SubbulletPool.Add(SubBullet);
+            _bulletPool.Add(subBullet.GetComponent<Bullet>());
 
             // 5. 끈다
-            SubBullet.SetActive(false);
+            subBullet.SetActive(false);
         }
     }
 
     [Header("총구들")]
     public List<GameObject>Muzzles;
     public List<GameObject>SubMuzzles;
+
    // public GameObject[] Muzzles;     // 총구들
    // public GameObject[] SubMuzzles;  // 총구들
 
@@ -144,14 +145,15 @@ public class PlayerFire : MonoBehaviour
             // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
 
             // 3. 총알을 킨다(발사)
+            // 3-1. 메인총알
             for (int i = 0; i < Muzzles.Count; i++)
             {
                 // 1. 꺼져있는 총알을 찾아 꺼낸다
-                GameObject bullet = null;
-                foreach (GameObject b in _bulletPool)
+                Bullet bullet = null;
+                foreach (Bullet b in _bulletPool)
                 {
-                    //만약에 꺼져있다면
-                    if (b.activeInHierarchy == false)
+                    //만약에 꺼져(비활성화되어)있고 && 메인총알이라면
+                    if (b.gameObject.activeInHierarchy == false && b.BType == BulletType.Main)
                     {
                         bullet = b;
                         break;  //찾았기 때문에 그 뒤까지 찾을 필요가 없다
@@ -160,16 +162,18 @@ public class PlayerFire : MonoBehaviour
                 // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
                 bullet.transform.position = Muzzles[i].transform.position;
                 // 3. 총알을 킨다(발사)
-                bullet.SetActive(true);
+                bullet.gameObject.SetActive(true);
             }
+
+            // 3-2. 서브총알
             for (int i = 0; i < SubMuzzles.Count; i++)
             {
                 // 1. 꺼져있는 총알을 찾아 꺼낸다
-                GameObject SubBullet = null;
-                foreach (GameObject b in _SubbulletPool)
+                Bullet SubBullet = null;
+                foreach (Bullet b in _bulletPool)
                 {
                     //만약에 꺼져있다면
-                    if (b.activeInHierarchy == false)
+                    if (b.gameObject.activeInHierarchy == false && b.BType == BulletType.Sub)
                     {
                         SubBullet = b;
                         break;  //찾았기 때문에 그 뒤까지 찾을 필요가 없다
@@ -178,7 +182,7 @@ public class PlayerFire : MonoBehaviour
                 // 2. 꺼낸 총알의 위치를 각 총구의 위치로 바꾼다
                 SubBullet.transform.position = SubMuzzles[i].transform.position;
                 // 3. 총알을 킨다(발사)
-                SubBullet.SetActive(true);
+                SubBullet.gameObject.SetActive(true);
             }
         }
     }
